@@ -5,14 +5,66 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>カウントダウン</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #timer {
+            font-size: 2em;
+            margin: 20px 0;
+            color:black;
+        }
+        .warning{
+            color:aqua;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+    </style>
 </head>
 <body>
-    <h1>２０２４カウントダウン</h1>
-    <button class="button">クリック</button>
+    <h1>カウントダウンタイマー</h1>
+    <input type="number" id="secondsInput" value="10" min="1" readonly>
+    <button onclick="startCountdown()">スタート</button>
+    <div id="timer">10秒</div>
+
     <script>
-        document.querySelector('.button').addEventListener('click',()=>{
-        alert("クリックされたよ");
-    });
+let countdownInterval;
+
+function startCountdown() {
+ 
+    clearInterval(countdownInterval);
+
+    const input = document.getElementById('secondsInput');
+    let seconds = parseInt(input.value, 10);
+
+    if (isNaN(seconds) || seconds <= 0) {
+        alert('正しい秒数を入力してください');
+        return;
+    }
+
+    const timerDisplay = document.getElementById('timer');
+    timerDisplay.textContent = `${seconds}秒`;
+    timerDisplay.classList.remove('warning');
+
+    countdownInterval = setInterval(() => {
+        seconds--;
+        timerDisplay.textContent = `${seconds}秒`;
+
+        if (seconds <= 3) {
+                    timerDisplay.classList.add('warning');
+                }
+
+        if (seconds <= 0) {
+            clearInterval(countdownInterval);
+            timerDisplay.textContent = 'タイムアップ!';
+        }
+    }, 1000);
+}
     </script>
 </body>
 </html>
